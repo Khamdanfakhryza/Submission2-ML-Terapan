@@ -1,4 +1,4 @@
-## Laporan Proyek Machine Learning 
+## Laporan Proyek Machine Learning - Khamdan Annas Fakhryza
 ***
 
 ## Project Overview
@@ -28,90 +28,124 @@ Solusi yang dapat dilakukan untuk memenuhi tujuan proyek ini antara lain:
 ## Data Understanding
 ***
 
-Dataset yang digunakan dapat diakses melalui [kaggle](https://www.kaggle.com/datasets/ruchi798/bookcrossing-dataset).  
-Informasi dari dataset dapat dilihat di Tabel 1.  
+Pada tahap ini, dilakukan eksplorasi menyeluruh terhadap dataset yang digunakan dalam proyek untuk memahami karakteristiknya sebelum dilanjutkan ke tahap *data preparation*. Tujuannya adalah mendapatkan wawasan tentang distribusi data, mengidentifikasi potensi masalah, dan menentukan langkah-langkah yang diperlukan untuk mempersiapkan data.
 
-**Tabel 1. Rangkuman informasi Dataset**
+### 1. Deskripsi Dataset
+Dataset yang digunakan adalah [Book-Crossing: User review ratings](https://www.kaggle.com/datasets/ruchi798/bookcrossing-dataset), yang berisi informasi tentang ulasan buku dari pengguna di berbagai lokasi. Berikut adalah rincian mengenai dataset:
 
-| Jenis                  | Keterangan                                                                                                        |
-| ---------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| Sumber                 | [Book-Crossing: User review ratings](https://www.kaggle.com/datasets/ruchi798/bookcrossing-dataset)               |
-| Lisensi                | [CC0: Public Domain](https://creativecommons.org/publicdomain/zero/1.0/)                                          |
-| Kategori               | Arts and Entertainment, Online Communities, Literature                                                            |
-| Jenis & Ukuran berkas  | ZIP (600.34 MB)                                                                                                   |  
+- **Sumber**: [Book-Crossing: User review ratings](https://www.kaggle.com/datasets/ruchi798/bookcrossing-dataset)
+- **Lisensi**: [CC0: Public Domain](https://creativecommons.org/publicdomain/zero/1.0/)
+- **Kategori**: Arts and Entertainment, Online Communities, Literature
+- **Jenis dan Ukuran Berkas**: ZIP (600.34 MB)
+- **Jumlah Total Baris (Ulasan)**: 1.149.780
+- **Jumlah Pengguna**: 278.858
+- **Jumlah Buku**: 271.379
 
-Setelah melakukan observasi pada dataset yang diunduh, didapat informasi sebagai berikut:
-- Terdapat 1.031.175 baris dalam dataset.
-- Terdapat 19 kolom yaitu 'Unnamed: 0', 'user_id', 'location', 'age', 'isbn', 'rating', 'book_title', 'book_author', 'year_of_publication', 'publisher', 'img_s', 'img_m', 'img_l', 'summary', 'language', 'category', 'city', 'state', 'country'.  
+### 2. Informasi Kolom dalam Dataset
+Dataset ini terdiri dari 19 kolom yang menyediakan informasi tentang buku dan ulasan pengguna. Penjelasan singkat mengenai kolom-kolom tersebut dapat dilihat pada Tabel 1.
 
-Penjelasan mengenai 19 kolom tersebut adalah sebagai berikut:  
-- `user_id`: ID dari pengguna.
-- `location`: Lokasi/alamat pengguna.
-- `age`: Umur pengguna.
-- `isbn`: Kode ISBN (International Standard Book Number) buku.
-- `rating`: Rating dari buku.
-- `book_title`: Judul buku.
-- `book_author`: Penulis buku.
-- `year_of_publication`: Tahun terbit buku.
-- `publisher`: Penerbit buku.
-- `img_s`: Gambar sampul buku (ukuran kecil).
-- `img_m`: Gambar sampul buku (ukuran sedang).
-- `img_l`: Gambar sampul buku (ukuran besar).
-- `summary`: Ringkasan/sinopsis buku.
-- `language`: Bahasa yang digunakan buku.
-- `category`: Kategori buku.
-- `city`: Kota pengguna.
-- `state`: Negara bagian pengguna.
-- `country`: Negara pengguna.
+**Tabel 1. Rangkuman Informasi Kolom Dataset**
 
-### Data Exploration
-**Tabel 2. Sample Data**
+| No | Column               | Description                                                 |
+|----|----------------------|-------------------------------------------------------------|
+| 1  | `user_id`            | ID unik untuk setiap pengguna                                |
+| 2  | `location`           | Lokasi/alamat pengguna                                       |
+| 3  | `age`                | Usia pengguna                                                |
+| 4  | `isbn`               | ISBN (International Standard Book Number) buku               |
+| 5  | `rating`             | Peringkat atau ulasan buku yang diberikan pengguna           |
+| 6  | `book_title`         | Judul buku                                                   |
+| 7  | `book_author`        | Nama penulis buku                                            |
+| 8  | `year_of_publication`| Tahun terbit buku                                            |
+| 9  | `publisher`          | Nama penerbit buku                                           |
+| 10 | `img_s`              | Gambar sampul buku ukuran kecil                              |
+| 11 | `img_m`              | Gambar sampul buku ukuran sedang                             |
+| 12 | `img_l`              | Gambar sampul buku ukuran besar                              |
+| 13 | `summary`            | Ringkasan atau sinopsis buku                                 |
+| 14 | `language`           | Bahasa buku                                                  |
+| 15 | `category`           | Kategori atau genre buku                                     |
+| 16 | `city`               | Kota tempat tinggal pengguna                                 |
+| 17 | `state`              | Negara bagian tempat tinggal pengguna                        |
+| 18 | `country`            | Negara tempat tinggal pengguna                               |
 
-| Unnamed: 0 | user_id | location | age | isbn | rating | book_title | book_author | year_of_publication | publisher | img_s | img_m | img_l | summary | language | category | city | state | country |  
-| ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | 
-| 0 | 0 | 2 | stockton, california, usa | 18 | 0195153448 | 0 | Classical Mythology | 2002 | Oxford University Press | http://images.amazon.com/images/P/0195153448.0... | http://images.amazon.com/images/P/0195153448.0... | http://images.amazon.com/images/P/0195153448.0... | Provides an introduction to classical myths pl... | en | ['Social Science'] | stockton | california | usa  
+### 3. Exploratory Data Analysis (EDA)
+Tahap EDA bertujuan untuk memahami lebih lanjut tentang data dan mencari pola yang dapat bermanfaat bagi pembangunan model. Analisis dilakukan untuk distribusi rating, kategori buku, penerbit, dan mengidentifikasi kolom yang mungkin memiliki masalah seperti nilai kosong.
 
-**Tabel 3. Informasi singkat mengenai data**  
+#### a. Distribusi Rating
+Distribusi rating memberikan gambaran tentang bagaimana pengguna menilai buku yang mereka baca. Tabel 2 menunjukkan frekuensi berbagai nilai rating dalam dataset.
 
-| #  | Column       		| Non-Null Count | Dtype  |
-| -- | -------------------- | -------------- | ------ |
-| 0  | Unnamed: 0  			| 1.031.175  		 | int64  |
-| 1  | user_id      		| 1.031.175  		 | int64  |
-| 2  | location  			| 1.031.175  		 | object |
-| 3  | age  				| 1.031.175  		 | float64|
-| 4  | isbn  				| 1.031.175  		 | object |
-| 5  | rating  				| 1.031.175  		 | int64  |
-| 6  | book_title   		| 1.031.175  		 | object |
-| 7  | book_author 			| 1.031.175  		 | object |
-| 8  | year_of_publication  | 1.031.175  		 | float64|
-| 9  | publisher 			| 1.031.175  		 | object |
-| 10 | img_s				| 1.031.175  		 | object |
-| 11 | img_m				| 1.031.175  		 | object |
-| 12 | img_l				| 1.031.175  		 | object |
-| 13 | summary				| 1.031.175  		 | object |
-| 14 | language				| 1.031.175  		 | object |
-| 15 | category				| 1.031.175  		 | object |
-| 16 | city					| 1.017.072  		 | object |
-| 17 | state				| 1.008.377  		 | object |
-| 18 | country 				| 995.801   		 | object |
+**Tabel 2. Distribusi Rating**
 
-**Tabel 4. Distribusi variabel rating**
+| Rating | Count    |
+|--------|----------|
+| 0      | 647.323  |
+| 8      | 91.806   |
+| 10     | 71.227   |
+| 7      | 66.404   |
+| 9      | 60.780   |
+| 5      | 45.355   |
+| 6      | 31.689   |
+| 4      | 7.617    |
+| 3      | 5.118    |
+| 2      | 2.375    |
+| 1      | 1.481    |
 
-| rating | count |
-|--------|-------|
-| 0      | 647.323 |
-| 1      | 1.481   |
-| 2      | 2.375   |
-| 3      | 5.118   |
-| 4      | 7.617   |
-| 5      | 45.355  |
-| 6      | 31.689  |
-| 7      | 66.404  |
-| 8      | 91.806  |
-| 9      | 60.780  |
-| 10     | 71.227  |
+- Sebagian besar pengguna memberikan rating 0, yang menunjukkan bahwa mereka pernah membaca buku tetapi tidak memberikan penilaian eksplisit. Oleh karena itu, rating 0 dianggap tidak relevan untuk model rekomendasi dan akan dihapus pada tahap *data preparation*, sehingga hanya rating 1 hingga 10 yang dipertahankan.
 
-Dari Tabel 2 dan Tabel 3, dapat dilihat bahwa ada beberapa kolom yang tidak akan digunakan dan sebaiknya dihapus. Dari Tabel 4, terlihat bahwa nilai rating 0 berarti pengguna pernah membaca buku tetapi tidak memberikan rating. Oleh karena itu, lebih baik jika rating 0 dihapus, menyisakan rating 1 sampai 10.
+#### b. Analisis Kategori Buku
+Analisis dilakukan untuk melihat kategori buku apa saja yang paling sering muncul dalam dataset. Tabel 3 di bawah ini menunjukkan 10 kategori dengan jumlah entri terbanyak.
+
+**Tabel 3. Jumlah Buku Berdasarkan Kategori Terbanyak**
+
+| No | Kategori                  | Jumlah Entri |
+|----|---------------------------|--------------|
+| 1  | Fiction                   | 127.055      |
+| 2  | Juvenile Fiction          | 14.181       |
+| 3  | Biography & Autobiography | 8.876        |
+| 4  | Humor                     | 3.721        |
+| 5  | History                   | 3.121        |
+| 6  | Religion                  | 2.843        |
+| 7  | Body, Mind & Spirit       | 1.999        |
+| 8  | Juvenile Nonfiction       | 1.955        |
+| 9  | Social Science            | 1.937        |
+| 10 | Business & Economics      | 1.734        |
+
+Analisis ini menunjukkan bahwa kategori "Fiction" adalah yang paling populer, dan hal ini mungkin akan memengaruhi rekomendasi jika tidak ada penanganan yang lebih mendalam.
+
+#### c. Analisis Penerbit Buku
+Distribusi jumlah buku berdasarkan penerbit juga dianalisis untuk memahami penerbit mana yang paling banyak muncul dalam dataset. Tabel 4 di bawah ini menunjukkan penerbit dengan jumlah buku terbanyak.
+
+**Tabel 4. Penerbit dengan Jumlah Buku Terbanyak**
+
+| No | Penerbit                 | Jumlah Buku |
+|----|--------------------------|-------------|
+| 1  | Ballantine Books         | 34.724      |
+| 2  | Pocket                   | 31.989      |
+| 3  | Berkley Publishing Group | 28.614      |
+| 4  | Warner Books             | 25.506      |
+| 5  | Harlequin                | 25.029      |
+
+Informasi ini penting untuk memahami penerbit yang dominan dalam dataset dan potensi bias yang mungkin terjadi pada model rekomendasi.
+
+### 4. Identifikasi dan Penanganan Nilai Kosong
+Dataset memiliki beberapa kolom dengan nilai kosong, terutama pada kolom `city`, `state`, dan `country`. Berikut adalah langkah-langkah yang diambil untuk menangani masalah ini:
+- **Menghapus Baris dengan Nilai Kosong**: Baris yang memiliki nilai kosong pada kolom seperti `city`, `state`, dan `country` dihapus untuk memastikan bahwa data yang digunakan memiliki kualitas yang baik.
+- **Menghapus Kolom yang Tidak Digunakan**: Kolom seperti `img_s`, `img_m`, `img_l`, dan `summary` tidak relevan untuk analisis lebih lanjut sehingga dihapus.
+
+**Tabel 5. Informasi Data Setelah Menghapus Nilai Kosong**
+
+| #  | Column               | Non-Null Count | Dtype  |
+|----|----------------------|----------------|--------|
+| 0  | user_id              | 1.031.175      | int64  |
+| 1  | rating               | 1.031.175      | int64  |
+| 2  | book_title           | 1.031.175      | object |
+| 3  | book_author          | 1.031.174      | object |
+| 4  | year_of_publication  | 1.031.175      | float64|
+| 5  | publisher            | 1.031.175      | object |
+| 6  | language             | 1.031.175      | object |
+| 7  | category             | 1.031.175      | object |
+
+### Kesimpulan EDA
+Hasil dari *Exploratory Data Analysis* memberikan gambaran tentang karakteristik dataset yang digunakan. Analisis ini membantu dalam menentukan langkah-langkah *data preparation* yang perlu dilakukan, seperti menghapus nilai rating 0, menangani nilai kosong, dan memilih fitur yang relevan untuk membangun model rekomendasi. Dataset yang bersih dan siap digunakan akan meningkatkan akurasi sistem rekomendasi.
 
 ## Data Preparation
 ***
