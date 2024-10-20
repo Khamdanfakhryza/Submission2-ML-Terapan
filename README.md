@@ -1,4 +1,4 @@
-## Laporan Proyek Machine Learning - Khamdan Annas Fakhryza
+## Laporan Proyek Machine Learning 
 ***
 
 ## Project Overview
@@ -28,124 +28,90 @@ Solusi yang dapat dilakukan untuk memenuhi tujuan proyek ini antara lain:
 ## Data Understanding
 ***
 
-Pada tahap ini, dilakukan eksplorasi menyeluruh terhadap dataset yang digunakan dalam proyek untuk memahami karakteristiknya sebelum dilanjutkan ke tahap *data preparation*. Tujuannya adalah mendapatkan wawasan tentang distribusi data, mengidentifikasi potensi masalah, dan menentukan langkah-langkah yang diperlukan untuk mempersiapkan data.
+Dataset yang digunakan dapat diakses melalui [kaggle](https://www.kaggle.com/datasets/ruchi798/bookcrossing-dataset).  
+Informasi dari dataset dapat dilihat di Tabel 1.  
 
-### 1. Deskripsi Dataset
-Dataset yang digunakan adalah [Book-Crossing: User review ratings](https://www.kaggle.com/datasets/ruchi798/bookcrossing-dataset), yang berisi informasi tentang ulasan buku dari pengguna di berbagai lokasi. Berikut adalah rincian mengenai dataset:
+**Tabel 1. Rangkuman informasi Dataset**
 
-- **Sumber**: [Book-Crossing: User review ratings](https://www.kaggle.com/datasets/ruchi798/bookcrossing-dataset)
-- **Lisensi**: [CC0: Public Domain](https://creativecommons.org/publicdomain/zero/1.0/)
-- **Kategori**: Arts and Entertainment, Online Communities, Literature
-- **Jenis dan Ukuran Berkas**: ZIP (600.34 MB)
-- **Jumlah Total Baris (Ulasan)**: 1.149.780
-- **Jumlah Pengguna**: 278.858
-- **Jumlah Buku**: 271.379
+| Jenis                  | Keterangan                                                                                                        |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| Sumber                 | [Book-Crossing: User review ratings](https://www.kaggle.com/datasets/ruchi798/bookcrossing-dataset)               |
+| Lisensi                | [CC0: Public Domain](https://creativecommons.org/publicdomain/zero/1.0/)                                          |
+| Kategori               | Arts and Entertainment, Online Communities, Literature                                                            |
+| Jenis & Ukuran berkas  | ZIP (600.34 MB)                                                                                                   |  
 
-### 2. Informasi Kolom dalam Dataset
-Dataset ini terdiri dari 19 kolom yang menyediakan informasi tentang buku dan ulasan pengguna. Penjelasan singkat mengenai kolom-kolom tersebut dapat dilihat pada Tabel 1.
+Setelah melakukan observasi pada dataset yang diunduh, didapat informasi sebagai berikut:
+- Terdapat 1.031.175 baris dalam dataset.
+- Terdapat 19 kolom yaitu 'Unnamed: 0', 'user_id', 'location', 'age', 'isbn', 'rating', 'book_title', 'book_author', 'year_of_publication', 'publisher', 'img_s', 'img_m', 'img_l', 'summary', 'language', 'category', 'city', 'state', 'country'.  
 
-**Tabel 1. Rangkuman Informasi Kolom Dataset**
+Penjelasan mengenai 19 kolom tersebut adalah sebagai berikut:  
+- `user_id`: ID dari pengguna.
+- `location`: Lokasi/alamat pengguna.
+- `age`: Umur pengguna.
+- `isbn`: Kode ISBN (International Standard Book Number) buku.
+- `rating`: Rating dari buku.
+- `book_title`: Judul buku.
+- `book_author`: Penulis buku.
+- `year_of_publication`: Tahun terbit buku.
+- `publisher`: Penerbit buku.
+- `img_s`: Gambar sampul buku (ukuran kecil).
+- `img_m`: Gambar sampul buku (ukuran sedang).
+- `img_l`: Gambar sampul buku (ukuran besar).
+- `summary`: Ringkasan/sinopsis buku.
+- `language`: Bahasa yang digunakan buku.
+- `category`: Kategori buku.
+- `city`: Kota pengguna.
+- `state`: Negara bagian pengguna.
+- `country`: Negara pengguna.
 
-| No | Column               | Description                                                 |
-|----|----------------------|-------------------------------------------------------------|
-| 1  | `user_id`            | ID unik untuk setiap pengguna                                |
-| 2  | `location`           | Lokasi/alamat pengguna                                       |
-| 3  | `age`                | Usia pengguna                                                |
-| 4  | `isbn`               | ISBN (International Standard Book Number) buku               |
-| 5  | `rating`             | Peringkat atau ulasan buku yang diberikan pengguna           |
-| 6  | `book_title`         | Judul buku                                                   |
-| 7  | `book_author`        | Nama penulis buku                                            |
-| 8  | `year_of_publication`| Tahun terbit buku                                            |
-| 9  | `publisher`          | Nama penerbit buku                                           |
-| 10 | `img_s`              | Gambar sampul buku ukuran kecil                              |
-| 11 | `img_m`              | Gambar sampul buku ukuran sedang                             |
-| 12 | `img_l`              | Gambar sampul buku ukuran besar                              |
-| 13 | `summary`            | Ringkasan atau sinopsis buku                                 |
-| 14 | `language`           | Bahasa buku                                                  |
-| 15 | `category`           | Kategori atau genre buku                                     |
-| 16 | `city`               | Kota tempat tinggal pengguna                                 |
-| 17 | `state`              | Negara bagian tempat tinggal pengguna                        |
-| 18 | `country`            | Negara tempat tinggal pengguna                               |
+### Data Exploration
+**Tabel 2. Sample Data**
 
-### 3. Exploratory Data Analysis (EDA)
-Tahap EDA bertujuan untuk memahami lebih lanjut tentang data dan mencari pola yang dapat bermanfaat bagi pembangunan model. Analisis dilakukan untuk distribusi rating, kategori buku, penerbit, dan mengidentifikasi kolom yang mungkin memiliki masalah seperti nilai kosong.
+| Unnamed: 0 | user_id | location | age | isbn | rating | book_title | book_author | year_of_publication | publisher | img_s | img_m | img_l | summary | language | category | city | state | country |  
+| ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | 
+| 0 | 0 | 2 | stockton, california, usa | 18 | 0195153448 | 0 | Classical Mythology | 2002 | Oxford University Press | http://images.amazon.com/images/P/0195153448.0... | http://images.amazon.com/images/P/0195153448.0... | http://images.amazon.com/images/P/0195153448.0... | Provides an introduction to classical myths pl... | en | ['Social Science'] | stockton | california | usa  
 
-#### a. Distribusi Rating
-Distribusi rating memberikan gambaran tentang bagaimana pengguna menilai buku yang mereka baca. Tabel 2 menunjukkan frekuensi berbagai nilai rating dalam dataset.
+**Tabel 3. Informasi singkat mengenai data**  
 
-**Tabel 2. Distribusi Rating**
+| #  | Column       		| Non-Null Count | Dtype  |
+| -- | -------------------- | -------------- | ------ |
+| 0  | Unnamed: 0  			| 1.031.175  		 | int64  |
+| 1  | user_id      		| 1.031.175  		 | int64  |
+| 2  | location  			| 1.031.175  		 | object |
+| 3  | age  				| 1.031.175  		 | float64|
+| 4  | isbn  				| 1.031.175  		 | object |
+| 5  | rating  				| 1.031.175  		 | int64  |
+| 6  | book_title   		| 1.031.175  		 | object |
+| 7  | book_author 			| 1.031.175  		 | object |
+| 8  | year_of_publication  | 1.031.175  		 | float64|
+| 9  | publisher 			| 1.031.175  		 | object |
+| 10 | img_s				| 1.031.175  		 | object |
+| 11 | img_m				| 1.031.175  		 | object |
+| 12 | img_l				| 1.031.175  		 | object |
+| 13 | summary				| 1.031.175  		 | object |
+| 14 | language				| 1.031.175  		 | object |
+| 15 | category				| 1.031.175  		 | object |
+| 16 | city					| 1.017.072  		 | object |
+| 17 | state				| 1.008.377  		 | object |
+| 18 | country 				| 995.801   		 | object |
 
-| Rating | Count    |
-|--------|----------|
-| 0      | 647.323  |
-| 8      | 91.806   |
-| 10     | 71.227   |
-| 7      | 66.404   |
-| 9      | 60.780   |
-| 5      | 45.355   |
-| 6      | 31.689   |
-| 4      | 7.617    |
-| 3      | 5.118    |
-| 2      | 2.375    |
-| 1      | 1.481    |
+**Tabel 4. Distribusi variabel rating**
 
-- Sebagian besar pengguna memberikan rating 0, yang menunjukkan bahwa mereka pernah membaca buku tetapi tidak memberikan penilaian eksplisit. Oleh karena itu, rating 0 dianggap tidak relevan untuk model rekomendasi dan akan dihapus pada tahap *data preparation*, sehingga hanya rating 1 hingga 10 yang dipertahankan.
+| rating | count |
+|--------|-------|
+| 0      | 647.323 |
+| 1      | 1.481   |
+| 2      | 2.375   |
+| 3      | 5.118   |
+| 4      | 7.617   |
+| 5      | 45.355  |
+| 6      | 31.689  |
+| 7      | 66.404  |
+| 8      | 91.806  |
+| 9      | 60.780  |
+| 10     | 71.227  |
 
-#### b. Analisis Kategori Buku
-Analisis dilakukan untuk melihat kategori buku apa saja yang paling sering muncul dalam dataset. Tabel 3 di bawah ini menunjukkan 10 kategori dengan jumlah entri terbanyak.
-
-**Tabel 3. Jumlah Buku Berdasarkan Kategori Terbanyak**
-
-| No | Kategori                  | Jumlah Entri |
-|----|---------------------------|--------------|
-| 1  | Fiction                   | 127.055      |
-| 2  | Juvenile Fiction          | 14.181       |
-| 3  | Biography & Autobiography | 8.876        |
-| 4  | Humor                     | 3.721        |
-| 5  | History                   | 3.121        |
-| 6  | Religion                  | 2.843        |
-| 7  | Body, Mind & Spirit       | 1.999        |
-| 8  | Juvenile Nonfiction       | 1.955        |
-| 9  | Social Science            | 1.937        |
-| 10 | Business & Economics      | 1.734        |
-
-Analisis ini menunjukkan bahwa kategori "Fiction" adalah yang paling populer, dan hal ini mungkin akan memengaruhi rekomendasi jika tidak ada penanganan yang lebih mendalam.
-
-#### c. Analisis Penerbit Buku
-Distribusi jumlah buku berdasarkan penerbit juga dianalisis untuk memahami penerbit mana yang paling banyak muncul dalam dataset. Tabel 4 di bawah ini menunjukkan penerbit dengan jumlah buku terbanyak.
-
-**Tabel 4. Penerbit dengan Jumlah Buku Terbanyak**
-
-| No | Penerbit                 | Jumlah Buku |
-|----|--------------------------|-------------|
-| 1  | Ballantine Books         | 34.724      |
-| 2  | Pocket                   | 31.989      |
-| 3  | Berkley Publishing Group | 28.614      |
-| 4  | Warner Books             | 25.506      |
-| 5  | Harlequin                | 25.029      |
-
-Informasi ini penting untuk memahami penerbit yang dominan dalam dataset dan potensi bias yang mungkin terjadi pada model rekomendasi.
-
-### 4. Identifikasi dan Penanganan Nilai Kosong
-Dataset memiliki beberapa kolom dengan nilai kosong, terutama pada kolom `city`, `state`, dan `country`. Berikut adalah langkah-langkah yang diambil untuk menangani masalah ini:
-- **Menghapus Baris dengan Nilai Kosong**: Baris yang memiliki nilai kosong pada kolom seperti `city`, `state`, dan `country` dihapus untuk memastikan bahwa data yang digunakan memiliki kualitas yang baik.
-- **Menghapus Kolom yang Tidak Digunakan**: Kolom seperti `img_s`, `img_m`, `img_l`, dan `summary` tidak relevan untuk analisis lebih lanjut sehingga dihapus.
-
-**Tabel 5. Informasi Data Setelah Menghapus Nilai Kosong**
-
-| #  | Column               | Non-Null Count | Dtype  |
-|----|----------------------|----------------|--------|
-| 0  | user_id              | 1.031.175      | int64  |
-| 1  | rating               | 1.031.175      | int64  |
-| 2  | book_title           | 1.031.175      | object |
-| 3  | book_author          | 1.031.174      | object |
-| 4  | year_of_publication  | 1.031.175      | float64|
-| 5  | publisher            | 1.031.175      | object |
-| 6  | language             | 1.031.175      | object |
-| 7  | category             | 1.031.175      | object |
-
-### Kesimpulan EDA
-Hasil dari *Exploratory Data Analysis* memberikan gambaran tentang karakteristik dataset yang digunakan. Analisis ini membantu dalam menentukan langkah-langkah *data preparation* yang perlu dilakukan, seperti menghapus nilai rating 0, menangani nilai kosong, dan memilih fitur yang relevan untuk membangun model rekomendasi. Dataset yang bersih dan siap digunakan akan meningkatkan akurasi sistem rekomendasi.
+Dari Tabel 2 dan Tabel 3, dapat dilihat bahwa ada beberapa kolom yang tidak akan digunakan dan sebaiknya dihapus. Dari Tabel 4, terlihat bahwa nilai rating 0 berarti pengguna pernah membaca buku tetapi tidak memberikan rating. Oleh karena itu, lebih baik jika rating 0 dihapus, menyisakan rating 1 sampai 10.
 
 ## Data Preparation
 ***
@@ -373,57 +339,42 @@ Berikut adalah lima penerbit teratas berdasarkan jumlah buku yang diterbitkan da
 ***
 
 ## Model and Results
-***
 
-### Cara Kerja Model
-Model rekomendasi yang digunakan dalam proyek ini adalah sistem rekomendasi berbasis konten (*content-based filtering*) dengan algoritma **cosine similarity**. Pada pendekatan ini, model menentukan tingkat kemiripan antar buku berdasarkan fitur yang ada, dan memberikan rekomendasi buku yang serupa dengan buku yang diinput oleh pengguna. Berikut adalah penjelasan cara kerja model secara lebih rinci:
+Pada tahap ini, fokus utama adalah menjelaskan model *content-based filtering* yang menggunakan algoritma *cosine similarity* untuk memberikan rekomendasi buku. Berikut adalah tahapan cara kerja model yang digunakan beserta parameternya:
 
-1. **Pembentukan Vektor Fitur**
-   - Model menggunakan fitur-fitur yang telah dipersiapkan selama proses *data preparation*. Setiap buku direpresentasikan dalam bentuk vektor fitur numerik yang menggambarkan karakteristik buku tersebut. Dalam hal ini, fitur yang digunakan meliputi informasi tentang kategori, judul, penulis, dan penerbit.
+1. **Fitur yang Digunakan:**
+   Model ini menggunakan fitur-fitur utama dari dataset, yaitu `book_title`, `book_author`, `category`, dan `publisher`. Fitur-fitur ini dipilih karena secara langsung mempengaruhi karakteristik dari buku dan relevansi dengan preferensi pengguna.
 
-2. **Penghitungan Kemiripan Menggunakan Cosine Similarity**
-   - Setelah vektor fitur untuk setiap buku terbentuk, langkah selanjutnya adalah menghitung kemiripan antar buku menggunakan algoritma *cosine similarity*. Algoritma ini digunakan untuk mengukur seberapa mirip dua vektor dalam ruang multidimensi dengan cara menghitung nilai kosinus dari sudut antara dua vektor tersebut.
-   - Rumus untuk *cosine similarity* antara dua vektor \( A \) dan \( B \) adalah:
-    ![image](https://github.com/user-attachments/assets/8e78404f-7519-4708-89cd-4ce93c60f773)
+2. **Pembentukan Vektor Fitur:**
+   Sebelum menghitung kesamaan antar buku, model menggabungkan semua fitur (`book_title`, `book_author`, `category`, `publisher`) menjadi satu representasi vektor untuk setiap buku. Setiap buku direpresentasikan oleh vektor ini yang berisi informasi gabungan dari fitur-fitur yang digunakan.
 
-   - Nilai *cosine similarity* berkisar antara -1 dan 1:
-     - Nilai mendekati 1 menunjukkan bahwa dua buku sangat mirip.
-     - Nilai mendekati 0 menunjukkan bahwa dua buku tidak memiliki kesamaan.
-     - Nilai mendekati -1 menunjukkan bahwa dua buku sangat berbeda (tidak berlaku dalam konteks ini karena semua fitur positif).
+3. **Menghitung Kesamaan Antar Buku dengan *Cosine Similarity*:**
+   Algoritma *cosine similarity* digunakan untuk menghitung kemiripan antara dua buku berdasarkan vektor yang telah dibentuk. *Cosine similarity* mengukur sudut kosinus antara dua vektor di ruang multidimensi. Nilai kesamaan berkisar antara 0 hingga 1, di mana nilai 1 menunjukkan bahwa dua buku tersebut sangat mirip, dan nilai mendekati 0 menunjukkan bahwa buku-buku tersebut berbeda.
+![image](https://github.com/user-attachments/assets/d2b8a3dd-d1f5-4d73-a5c8-9319a8e40871)
+  
+4. **Membuat Fungsi Rekomendasi:**
+   Berdasarkan hasil perhitungan *cosine similarity*, model kemudian membuat fungsi rekomendasi yang mengambil input berupa buku yang pernah dibaca atau disukai oleh pengguna, dan menghasilkan daftar buku yang paling mirip. Fungsi ini mempertimbangkan buku dengan skor kesamaan tertinggi untuk direkomendasikan kepada pengguna.
 
-3. **Pembuatan Matriks Kemiripan**
-   - Hasil dari perhitungan *cosine similarity* digunakan untuk membentuk matriks kemiripan berdimensi \( (N, N) \), di mana \( N \) adalah jumlah buku dalam dataset. Matriks ini menyimpan nilai kemiripan antara setiap pasangan buku, dengan setiap entri \( (i, j) \) menunjukkan tingkat kemiripan antara buku ke-\( i \) dan buku ke-\( j \).
+5. **Evaluasi Model:**
+   Model ini dievaluasi dengan metrik precision dan recall untuk mengukur seberapa baik rekomendasi yang diberikan sesuai dengan preferensi pengguna.
 
-4. **Fungsi Rekomendasi Berdasarkan Kemiripan**
-   - Model dikembangkan untuk memberikan rekomendasi buku dengan menggunakan matriks kemiripan. Proses rekomendasi dilakukan dengan cara:
-     - Menerima input berupa judul buku yang dipilih pengguna.
-     - Menemukan indeks buku tersebut dalam dataset dan mengambil baris yang sesuai dalam matriks kemiripan.
-     - Mengurutkan nilai kemiripan secara menurun untuk mendapatkan daftar buku yang paling mirip.
-     - Mengembalikan daftar top-N buku teratas yang memiliki nilai kemiripan tertinggi dengan buku input, kecuali buku itu sendiri untuk menghindari rekomendasi yang sama.
+Dengan menggunakan *cosine similarity*, model ini mampu memberikan rekomendasi buku yang relevan berdasarkan kesamaan fitur utama buku seperti judul, penulis, kategori, dan penerbit.
 
-### Parameter Model
-Model *cosine similarity* dalam proyek ini tidak memerlukan banyak parameter yang dapat diatur. Parameter utama yang digunakan adalah jumlah buku yang ingin direkomendasikan (top-N):
-- **Top-N (Jumlah Buku yang Direkomendasikan)**: Dalam eksperimen ini, nilai \( N \) ditetapkan sebagai 10, sehingga model mengembalikan 10 buku teratas yang paling mirip dengan buku input.
 
-### Hasil Rekomendasi Top-N
-Berikut adalah hasil dari rekomendasi buku ketika pengguna memilih buku "Macromedia Flash MX for Dummies" sebagai input, dengan \( N = 10 \). Daftar buku yang direkomendasikan oleh model adalah:
+### Hasil Rekomendasi
+Untuk buku "Macromedia Flash MX for Dummies", berikut adalah 10 buku yang direkomendasikan:
+1. "termcap & terminfo (O'Reilly Nutshell)" - Computers
+2. "Programming the Perl DBI" - Computers
+3. "Programming Perl (3rd Edition)" - Computers
+4. "Programming with Microsoft Visual Basic .NET" - Computers
+5. "Professional PHP Programming" - Computers
+6. "Professional Web Site Design from Start to Finish" - Computers
+7. "Professional Photoshop: Color Correction, Retouching, and Repair" - Computers
+8. "Programming Javascript for Netscape 2.0" - Computers
+9. "Programming Perl (2nd Edition)" - Computers
+10. "QBasic Fundamentals and Style with an Introduction to C++" - Computers
 
-| No | Title                                                       | Category                | Publisher                          |
-|----|-------------------------------------------------------------|-------------------------|------------------------------------|
-| 1  | termcap & terminfo (O'Reilly Nutshell)                      | Computers               | O'Reilly                           |
-| 2  | Programming the Perl DBI                                     | Computers               | O'Reilly                           |
-| 3  | Programming Perl (3rd Edition)                               | Computers               | O'Reilly                           |
-| 4  | Programming with Microsoft Visual Basic .NET                 | Computers               | Microsoft Press                    |
-| 5  | Professional PHP Programming                                 | Computers               | Wrox Press                         |
-| 6  | Professional Web Site Design from Start to Finish            | Computers               | Hungry Minds Inc                   |
-| 7  | Professional Photoshop: Color Correction, Retouching, and... | Computers               | Wiley                              |
-| 8  | Programming Javascript for Netscape 2.0                      | Computers               | John Wiley & Sons                  |
-| 9  | Programming Perl (2nd Edition)                               | Computers               | O'Reilly                           |
-| 10 | QBasic Fundamentals and Style with an Introduction to C++    | Computers               | Prentice Hall                      |
-
-### Analisis Hasil Rekomendasi
-- **Konsistensi Kategori**: Semua buku yang direkomendasikan berada dalam kategori "Computers," yang sama dengan kategori dari buku input. Ini menunjukkan bahwa model mampu mengenali kesamaan kategori dan memberikan rekomendasi yang relevan.
-- **Ragam Penerbit**: Meskipun sebagian besar buku yang direkomendasikan berasal dari penerbit yang sama (misalnya O'Reilly), sistem tetap mampu mengidentifikasi buku lain yang relevan dari penerbit berbeda.
+Semua buku yang direkomendasikan berada dalam kategori "Computers", yang menunjukkan bahwa model mampu mengenali kesamaan kategori.
 
 ## Evaluation
 ***
