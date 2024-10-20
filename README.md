@@ -338,33 +338,58 @@ Berikut adalah lima penerbit teratas berdasarkan jumlah buku yang diterbitkan da
 ## Modeling
 ***
 
-### Membuat Model
-1. **Pembentukan Matriks TF-IDF**
-   - Matriks *TF-IDF* digunakan untuk menghitung frekuensi relatif dan kepentingan istilah dalam dokumen berdasarkan fitur `category`.
-   - Hasil transformasi ini adalah matriks berdimensi `(13048, 6)`.
+## Model and Results
+***
 
-2. **Menggunakan Algoritma Cosine Similarity**
-   - Menghitung *cosine similarity* antara buku berdasarkan matriks TF-IDF. Matriks kesamaan yang dihasilkan memiliki dimensi `(13048, 13048
+### Cara Kerja Model
+Model rekomendasi yang digunakan dalam proyek ini adalah sistem rekomendasi berbasis konten (*content-based filtering*) dengan algoritma **cosine similarity**. Pada pendekatan ini, model menentukan tingkat kemiripan antar buku berdasarkan fitur yang ada, dan memberikan rekomendasi buku yang serupa dengan buku yang diinput oleh pengguna. Berikut adalah penjelasan cara kerja model secara lebih rinci:
 
-)` yang menunjukkan tingkat kesamaan antar buku.
+1. **Pembentukan Vektor Fitur**
+   - Model menggunakan fitur-fitur yang telah dipersiapkan selama proses *data preparation*. Setiap buku direpresentasikan dalam bentuk vektor fitur numerik yang menggambarkan karakteristik buku tersebut. Dalam hal ini, fitur yang digunakan meliputi informasi tentang kategori, judul, penulis, dan penerbit.
 
-3. **Implementasi Fungsi Rekomendasi**
-   - Mengembangkan fungsi rekomendasi yang mengembalikan N buku teratas dengan nilai kemiripan tertinggi. Fungsi ini juga mengabaikan buku yang sama dengan input untuk menghindari duplikasi.
+2. **Penghitungan Kemiripan Menggunakan Cosine Similarity**
+   - Setelah vektor fitur untuk setiap buku terbentuk, langkah selanjutnya adalah menghitung kemiripan antar buku menggunakan algoritma *cosine similarity*. Algoritma ini digunakan untuk mengukur seberapa mirip dua vektor dalam ruang multidimensi dengan cara menghitung nilai kosinus dari sudut antara dua vektor tersebut.
+   - Rumus untuk *cosine similarity* antara dua vektor \( A \) dan \( B \) adalah:
+    ![image](https://github.com/user-attachments/assets/8e78404f-7519-4708-89cd-4ce93c60f773)
 
-### Hasil Rekomendasi
-Untuk buku "Macromedia Flash MX for Dummies", berikut adalah 10 buku yang direkomendasikan:
-1. "termcap & terminfo (O'Reilly Nutshell)" - Computers
-2. "Programming the Perl DBI" - Computers
-3. "Programming Perl (3rd Edition)" - Computers
-4. "Programming with Microsoft Visual Basic .NET" - Computers
-5. "Professional PHP Programming" - Computers
-6. "Professional Web Site Design from Start to Finish" - Computers
-7. "Professional Photoshop: Color Correction, Retouching, and Repair" - Computers
-8. "Programming Javascript for Netscape 2.0" - Computers
-9. "Programming Perl (2nd Edition)" - Computers
-10. "QBasic Fundamentals and Style with an Introduction to C++" - Computers
+   - Nilai *cosine similarity* berkisar antara -1 dan 1:
+     - Nilai mendekati 1 menunjukkan bahwa dua buku sangat mirip.
+     - Nilai mendekati 0 menunjukkan bahwa dua buku tidak memiliki kesamaan.
+     - Nilai mendekati -1 menunjukkan bahwa dua buku sangat berbeda (tidak berlaku dalam konteks ini karena semua fitur positif).
 
-Semua buku yang direkomendasikan berada dalam kategori "Computers", yang menunjukkan bahwa model mampu mengenali kesamaan kategori.
+3. **Pembuatan Matriks Kemiripan**
+   - Hasil dari perhitungan *cosine similarity* digunakan untuk membentuk matriks kemiripan berdimensi \( (N, N) \), di mana \( N \) adalah jumlah buku dalam dataset. Matriks ini menyimpan nilai kemiripan antara setiap pasangan buku, dengan setiap entri \( (i, j) \) menunjukkan tingkat kemiripan antara buku ke-\( i \) dan buku ke-\( j \).
+
+4. **Fungsi Rekomendasi Berdasarkan Kemiripan**
+   - Model dikembangkan untuk memberikan rekomendasi buku dengan menggunakan matriks kemiripan. Proses rekomendasi dilakukan dengan cara:
+     - Menerima input berupa judul buku yang dipilih pengguna.
+     - Menemukan indeks buku tersebut dalam dataset dan mengambil baris yang sesuai dalam matriks kemiripan.
+     - Mengurutkan nilai kemiripan secara menurun untuk mendapatkan daftar buku yang paling mirip.
+     - Mengembalikan daftar top-N buku teratas yang memiliki nilai kemiripan tertinggi dengan buku input, kecuali buku itu sendiri untuk menghindari rekomendasi yang sama.
+
+### Parameter Model
+Model *cosine similarity* dalam proyek ini tidak memerlukan banyak parameter yang dapat diatur. Parameter utama yang digunakan adalah jumlah buku yang ingin direkomendasikan (top-N):
+- **Top-N (Jumlah Buku yang Direkomendasikan)**: Dalam eksperimen ini, nilai \( N \) ditetapkan sebagai 10, sehingga model mengembalikan 10 buku teratas yang paling mirip dengan buku input.
+
+### Hasil Rekomendasi Top-N
+Berikut adalah hasil dari rekomendasi buku ketika pengguna memilih buku "Macromedia Flash MX for Dummies" sebagai input, dengan \( N = 10 \). Daftar buku yang direkomendasikan oleh model adalah:
+
+| No | Title                                                       | Category                | Publisher                          |
+|----|-------------------------------------------------------------|-------------------------|------------------------------------|
+| 1  | termcap & terminfo (O'Reilly Nutshell)                      | Computers               | O'Reilly                           |
+| 2  | Programming the Perl DBI                                     | Computers               | O'Reilly                           |
+| 3  | Programming Perl (3rd Edition)                               | Computers               | O'Reilly                           |
+| 4  | Programming with Microsoft Visual Basic .NET                 | Computers               | Microsoft Press                    |
+| 5  | Professional PHP Programming                                 | Computers               | Wrox Press                         |
+| 6  | Professional Web Site Design from Start to Finish            | Computers               | Hungry Minds Inc                   |
+| 7  | Professional Photoshop: Color Correction, Retouching, and... | Computers               | Wiley                              |
+| 8  | Programming Javascript for Netscape 2.0                      | Computers               | John Wiley & Sons                  |
+| 9  | Programming Perl (2nd Edition)                               | Computers               | O'Reilly                           |
+| 10 | QBasic Fundamentals and Style with an Introduction to C++    | Computers               | Prentice Hall                      |
+
+### Analisis Hasil Rekomendasi
+- **Konsistensi Kategori**: Semua buku yang direkomendasikan berada dalam kategori "Computers," yang sama dengan kategori dari buku input. Ini menunjukkan bahwa model mampu mengenali kesamaan kategori dan memberikan rekomendasi yang relevan.
+- **Ragam Penerbit**: Meskipun sebagian besar buku yang direkomendasikan berasal dari penerbit yang sama (misalnya O'Reilly), sistem tetap mampu mengidentifikasi buku lain yang relevan dari penerbit berbeda.
 
 ## Evaluation
 ***
