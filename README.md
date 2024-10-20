@@ -113,6 +113,13 @@ Penjelasan mengenai 19 kolom tersebut adalah sebagai berikut:
 
 Dari Tabel 2 dan Tabel 3, dapat dilihat bahwa ada beberapa kolom yang tidak akan digunakan dan sebaiknya dihapus. Dari Tabel 4, terlihat bahwa nilai rating 0 berarti pengguna pernah membaca buku tetapi tidak memberikan rating. Oleh karena itu, lebih baik jika rating 0 dihapus, menyisakan rating 1 sampai 10.
 
+#### Distribusi Rating Buku
+Distribusi variabel `rating` memberikan wawasan tentang bagaimana pengguna memberikan penilaian terhadap buku. Dari distribusi rating, terlihat bahwa sebagian besar pengguna memberikan rating 0, yang berarti mereka membaca buku tetapi tidak memberikan penilaian eksplisit. Langkah ini penting untuk membersihkan data dan hanya mempertahankan rating yang relevan.
+
+#### Eksplorasi Fitur-Fitur Penting
+- **Kategori Buku (Category):** Kategori buku menunjukkan distribusi jumlah buku dalam berbagai genre. Kategori-kategori yang paling umum termasuk Fiksi, Biografi, Humor, dan lain-lain. Informasi ini membantu dalam memahami preferensi umum pengguna dan relevan untuk model rekomendasi berbasis konten.
+- **Penerbit (Publisher):** Beberapa penerbit mendominasi jumlah buku dalam dataset, seperti Ballantine Books dan Pocket. Memahami penerbit mana yang paling produktif memberikan gambaran umum tentang distribusi buku dalam dataset.
+
 ## Data Preparation
 ***
 
@@ -305,27 +312,6 @@ Setelah dilakukan berbagai langkah pembersihan dan transformasi, dataset yang di
 - **Dimensi Matriks Kemiripan (Cosine Similarity)**: `(13048, 13048)`
 
 Langkah-langkah di atas memastikan bahwa data yang digunakan dalam model bersih, relevan, dan berada dalam format yang sesuai untuk perhitungan kemiripan. Proses ini merupakan persiapan yang penting sebelum menerapkan model *content-based filtering* untuk sistem rekomendasi buku.
-
-## Data Exploration
-***
-
-### Eksplorasi Data
-Dilakukan eksplorasi terhadap data yang telah diproses untuk memastikan bahwa fitur yang dipilih mewakili informasi yang relevan dan mendukung tujuan proyek. Berikut adalah hasil eksplorasi beberapa fitur:
-
-#### Kategori Buku
-Dari kolom `Category`, berikut adalah 10 kategori buku yang paling sering muncul:
-1. Fiction - 127.055 entri
-2. Juvenile Fiction - 14.181 entri
-3. Biography & Autobiography - 8.876 entri
-4. Humor - 3.721 entri
-5. History - 3.121 entri
-6. Religion - 2.843 entri
-7. Body, Mind & Spirit - 1.999 entri
-8. Juvenile Nonfiction - 1.955 entri
-9. Social Science - 1.937 entri
-10. Business & Economics - 1.734 entri
-
-Jumlah entri pada kategori lain jauh lebih sedikit, sehingga kategori-kategori di atas merupakan yang paling relevan untuk dianalisis.
 
 #### Penerbit Buku
 Berikut adalah lima penerbit teratas berdasarkan jumlah buku yang diterbitkan dalam dataset:
